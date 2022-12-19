@@ -78,3 +78,20 @@ Finally, I was able to get `terraform apply` to work by adding the `profile` key
 The solution to Problem 2 will not work when Terraform is executed by GHA because the GH runner will not have my gsts credentials. Another solution needs to be found.
 
 I knew Adianny had been successfully integrating GHAs with our AWS Development environment, so I reached out to him to see how we had done it. I figured he either used a more muscular role with long-lived keys, or he was using some sort of technique to assume temporary keys of a strong Role. A bit of Googling later, I found this gem of an article: [https://benoitboure.com/securely-access-your-aws-resources-from-github-actions](https://benoitboure.com/securely-access-your-aws-resources-from-github-actions)
+
+
+## Success! But there are problems ...
+After configuring OIDC access, I could successfully deploy from GHA to AWS. But now I had a new problem ... How would I delete the infrastructure created by the GHA?
+
+### `AWS_PROFILE` rather than `AWS_DEFAULT_PROFILE`
+I clone the repo locally and tried to run `terraform plan` to ensure my local instance could see the same state as what was created by the GHA. 
+
+I was receiving confusing 403 HTTP responses, which didn't make sense given that I was using the powerful `gsts` Role. I set `TF_LOG=TRACE` and ran the init process again and this time happened to notice that the wrong Account (personal) was being identified rather than the role I thought I was using.
+
+**CAVEAT!**
+- Whereas I would normally set `AWS_DEFAULT_PROFILE=sts` to force the AWS CLI to use the gsts Role, it appears that Terraform expects `AWS_PROFILE`. My local instance was able to destroy GHA-created objects once I used:
+
+    ```bash
+    export AWS_PROFILE=sts
+    terraform destroy --auto-approve
+    ```
