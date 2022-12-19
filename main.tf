@@ -18,14 +18,14 @@ terraform {
         key                         = "terraform/terraform.tfstate"
         dynamodb_table              = "graham_tf_lock_state"
         encrypt                     = false
-        role_arn                    = "arn:aws:iam::128997144437:role/TowerDevelopmentRole"
+        # role_arn                    = "arn:aws:iam::128997144437:role/TowerDevelopmentRole"
     }
 }
 
 provider "aws" {
     # shared_credentials_files        = ["~/.aws/credentials"]
     region                          = var.region
-    profile                         = "sts" # var.profile
+    # profile                         = "sts" # var.profile
     # assume_role {
     #   role_arn                      = "arn:aws:iam::128997144437:role/TowerDevelopmentRole"
     #   session_name                  = "graham_tf_session"
