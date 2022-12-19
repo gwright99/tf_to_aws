@@ -25,7 +25,7 @@ terraform {
 provider "aws" {
     # shared_credentials_files        = ["~/.aws/credentials"]
     region                          = var.region
-    profile                         = "sts" # var.profile
+    # profile                         = "sts" # var.profile
     # assume_role {
     #   role_arn                      = "arn:aws:iam::128997144437:role/TowerDevelopmentRole"
     #   session_name                  = "graham_tf_session"
