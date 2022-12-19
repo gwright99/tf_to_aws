@@ -18,7 +18,7 @@ terraform {
         key                         = "terraform/terraform.tfstate"
         dynamodb_table              = "graham_tf_lock_state"
         encrypt                     = false
-        role_arn                    = "arn:aws:iam::128997144437:role/TowerDevelopmentRole"
+        # role_arn                    = "arn:aws:iam::128997144437:role/TowerDevelopmentRole"
     }
 }
 
